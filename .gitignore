@@ -1,0 +1,5 @@
+# ignore all .txt files
+*.txt
+
+# ignore all backup files made by notepad++
+*.bak
