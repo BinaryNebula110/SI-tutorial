@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # initialise pygame
 pygame.init()
@@ -30,16 +31,22 @@ def enemy(x, y):
     screen.blit(enemyImg, (x, y))
 
 # laser
-laserImg = pygame.image.load("assets\\laser.png").convert_alpha
+laserImg = pygame.image.load("assets\\laser.png").convert_alpha()
 laserX = 0
 laserY = -64
-laserYChange = -3
+laserYChange = -9
 laserStatus = "Ready"
 
 def shootLaser(x):
+    global laserStatus
     laserStatus = "Firing"
+    global laserX
     laserX = playerX
+    global laserY
     laserY = 836
+
+def laser(x, y):
+    screen.blit(laserImg, (x+16,y))
 
 
 # background
@@ -64,7 +71,7 @@ while running:
                 playerXChange = playerXChange - 0.3
             if  event.key == pygame.K_d:
                 playerXChange = playerXChange + 0.3
-            if event.key == pygame.K_SPACE & laserStatus == "Ready":
+            if event.key == pygame.K_SPACE and laserStatus == "Ready":
                 shootLaser(playerX)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
@@ -98,6 +105,9 @@ while running:
     #laser
     if laserStatus == "Firing":
         laserY = laserY + laserYChange
+        laser(laserX, laserY)
+    if laserY <= 0:
+        laserStatus = "Ready"
     
     # update
     pygame.display.update()
