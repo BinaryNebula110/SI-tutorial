@@ -1,5 +1,6 @@
 import pygame
 import random
+import entities
 
 # initialise pygame
 pygame.init()
@@ -11,6 +12,11 @@ screen = pygame.display.set_mode((resolution[0], resolution[1]))
 # title and icon
 pygame.display.set_caption("Space Invaders")
 pygame.display.set_icon(pygame.image.load("assets\logo.png"))
+
+# remove framerate dependency
+def updateClock():
+    global dt
+    dt = pygame.time.Clock().tick(60)
 
 # player
 playerImg = pygame.image.load("assets\playerIcon.png").convert_alpha()
@@ -56,7 +62,7 @@ background = pygame.image.load("assets\\background.png").convert()
 running = True 
 while running: 
     # clock
-    dt = pygame.time.Clock().tick(60)
+    updateClock()
   
     for event in pygame.event.get():
         
@@ -108,6 +114,8 @@ while running:
         laser(laserX, laserY)
     if laserY <= 0:
         laserStatus = "Ready"
+        
+    print(dt)
     
     # update
     pygame.display.update()
